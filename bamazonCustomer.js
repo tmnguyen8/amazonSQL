@@ -62,9 +62,9 @@ function inquireItem() {
         selectedItem = parseInt(answer.selectedItem)
         console.log("Amount purchase: ", answer.selectedQuantity);
         selectedQuantity = answer.selectedQuantity
-
+        getItemQuantity();
         // Check if quantity is available to sell
-        if (selectedItem <= selectedQuantity) {
+        if (selectedItemStockQuantity <= selectedQuantity) {
             console.log("Sufficient");
             getItemQuantity();
             updateProduct();
@@ -107,16 +107,10 @@ function getItemQuantity() {
 function updateProduct() {
     console.log("Updating all product quantities...\n");
     var query = connection.query(
-      "UPDATE products SET ? WHERE ?",
-      [
-        {
-          stock_quantity: selectedItemStockQuantity - selectedQuantity
-        },
-        {
-          item_id: selectedItem
-        }
-      ],
-      function(err, res) {
+    //   "UPDATE products SET ? WHERE ?;",
+    //     [`stock_quantity=stock_quantity-${selectedQuantity}`,`item_id=${selectedItem}`],
+        `UPDATE products SET stock_quantity=stock_quantity-${selectedQuantity} WHERE item_id=${selectedItem};`,
+        function(err, res) {
         if (err) throw err;
         console.log(res.affectedRows + " products updated!\n");
 
