@@ -62,11 +62,9 @@ function inquireItem() {
         selectedItem = parseInt(answer.selectedItem)
         console.log("Amount purchase: ", answer.selectedQuantity);
         selectedQuantity = answer.selectedQuantity
-        getItemQuantity();
         // Check if quantity is available to sell
         if (selectedItemStockQuantity <= selectedQuantity) {
-            console.log("Sufficient");
-            getItemQuantity();
+            console.log("Sufficient quantity");
             updateProduct();
         } else {
             console.log("Insufficient quantity!");
@@ -78,30 +76,23 @@ function inquireItem() {
 
 // This function display the items available for purchase
 function queryTable() {
+    saleList = [];
     var query = connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
-        saleList = [];
+        
         for (var i = 0; i < res.length; i++) {
             console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].price);
             saleList.push(`${res[i].item_id}`);
         }
             console.log("-----------------------------------");
-            console.log(res);
+            console.log("this is sale list", saleList)
+            // console.log(res);
             inquireItem();
           
       });
       // logs the actual query being run
       console.log(query.sql);
 };
-function getItemQuantity() {
-    var query = connection.query("SELECT * FROM products WHERE item_id=?", [selectedItem], function(err, res) {
-        if (err) throw err;
-        selectedItemStockQuantity = res.stock_quantity;
-      });
-    
-      // logs the actual query being run
-      console.log(query.sql);
-}
 
 // function to update the product table 
 function updateProduct() {
@@ -111,8 +102,8 @@ function updateProduct() {
     //     [`stock_quantity=stock_quantity-${selectedQuantity}`,`item_id=${selectedItem}`],
         `UPDATE products SET stock_quantity=stock_quantity-${selectedQuantity} WHERE item_id=${selectedItem};`,
         function(err, res) {
-        if (err) throw err;
-        console.log(res.affectedRows + " products updated!\n");
+            if (err) throw err;
+                console.log(res.affectedRows + " products updated!\n");
 
       }
     );
