@@ -15,7 +15,7 @@ connection.connect(function(err) {
     
 
 });
-queryTable();
+
 
 // The first should ask them the ID of the product they would like to buy.
 // The second message should ask how many units of the product they would like to buy.
@@ -69,9 +69,8 @@ function queryTable() {
             console.log("-----------------------------------");
             // console.log("this is sale list", saleList)
             // console.log(res);
-            inquireItem();
-          
-      });
+            inquireItem(); 
+      })
       // logs the actual query being run
       console.log(query.sql);
 };
@@ -92,6 +91,8 @@ function updateProduct() {
   
     // logs the actual query being run
     console.log(query.sql);
-  }
+}
+
+queryTable();
 
 
