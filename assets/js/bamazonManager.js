@@ -1,6 +1,7 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var keys = require ("./keys.js");
+const cTable = require('console.table');
 var connection = mysql.createConnection(keys.databaseKeys);
 var managerOptions = [
     'View Products for Sale',
@@ -8,6 +9,7 @@ var managerOptions = [
     'Add to Inventory',
     'Add New Product'
 ]
+var saleList = [];
 // main function of manager to pick the options to update products
 function managerInquire() {
     inquirer
@@ -50,6 +52,8 @@ function queryTable() {
             saleList.push(`${res[i].item_id}`);
         }
             console.log("-----------------------------------");
+            console.table(res);
+            console.log("-----------------------------------");
       })
     // logs the actual query being run
     // console.log(query.sql);
@@ -74,7 +78,7 @@ function addInventory() {
     var query = connection.query("SELECT * FROM products", function(err,res) {
         if(err) throw err;
         for (i of res) {
-            availableItems.push(i.item_id)
+            availableItems.push(`${i.item_id} ${i.product_name}`)
         };
     
         inquirer
@@ -97,7 +101,8 @@ function addInventory() {
                 }
             }
         ]).then(function(answer) {
-            updateProduct(answer.selectedItem, answer.selectedQuantity)
+            var itemArr = answer.selectedItem.split(" ")
+            updateProduct(itemArr[0], answer.selectedQuantity)
 
         });
     })
@@ -113,7 +118,7 @@ function updateProduct(id, stock) {
       }
     );
     // logs the actual query being run
-    console.log(query.sql);
+    // console.log(query.sql);
 }
 
 // Add New Product

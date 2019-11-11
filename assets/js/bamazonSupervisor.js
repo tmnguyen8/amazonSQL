@@ -12,4 +12,42 @@
 //    * Hint: You may need to look into GROUP BYs.
 //    * Hint: You may need to look into JOINS.
 //    * **HINT**: There may be an NPM package that can log the table to the console. What's is it? Good question :)
+var mysql = require("mysql");
+var inquirer = require("inquirer");
+var keys = require ("./keys.js");
+var connection = mysql.createConnection(keys.databaseKeys);
+var superOptions = [
+    'View Product Sales by Department',
+    'Create New Department'
+];
 
+function superInquire() {
+    inquirer
+        .prompt([
+            {
+                name: "superItems",
+                type: "list",
+                message: "What item would you like to purchase?",
+                choices: superOptions
+            }
+        ]).then(function(answer) {
+        console.log("You have selected item number: ", answer.superItems);
+
+        switch (answer.superItems) {
+            case ('View Product Sales by Department'):
+                console.log('I want to view product sales');
+                break;
+            case ('Create New Department'):
+                console.log('I want to create new department');
+                break;
+        }
+    });
+};
+
+function displayProductSale() {
+    
+}
+
+
+// Execute Spervisor Function
+superInquire();

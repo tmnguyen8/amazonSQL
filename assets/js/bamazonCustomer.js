@@ -1,9 +1,11 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var keys = require ("./keys.js");
+const cTable = require('console.table');
 
 var saleList = [];
 var selectedItem =0;
+var selectedItemPrice;
 var selectedQuantity =0;
 var selectedItemStockQuantity = 0;
 
@@ -40,34 +42,42 @@ function inquireItem() {
                 }
             }
         ]).then(function(answer) {
-        console.log("You have selected item number: ", answer.selectedItem);
-        selectedItem = parseInt(answer.selectedItem)
-        console.log("Amount purchase: ", answer.selectedQuantity);
-        selectedQuantity = answer.selectedQuantity
-        // Check if quantity is available to sell
-        if (selectedItemStockQuantity <= selectedQuantity) {
-            console.log("Sufficient quantity");
-            updateProduct();
-        } else {
-            console.log("Insufficient quantity!");
-        };
-    });
-};
+            var answerArr = answer.selectedItem.split(" ");
+            selectedQuantity = answer.selectedQuantity;
 
+            console.log("You have selected item number: ", answerArr[0]);
+            selectedItem = parseInt(answerArr[0]);
+            selectedItemPrice = parseInt(answerArr[answerArr.length-1])
+
+            console.log("Purchased Quantity: ", selectedQuantity);
+            
+            // Check if quantity is available to sell
+            if (selectedItemStockQuantity <= selectedQuantity) {
+                // console.log("Sufficient quantity");
+                console.log(`Your total price is: ${selectedItemPrice*selectedQuantity}`)
+                updateProduct();
+            } else {
+                console.log("Insufficient quantity!");
+            };
+    
+        });
+};
 
 
 // This function display the items available for purchase
 function queryTable() {
     saleList = [];
-    var query = connection.query("SELECT * FROM products", function(err, res) {
+    var query = connection.query("SELECT item_id AS 'item_id', product_name AS 'product_name', price AS 'price' FROM bamazon.products;", function(err, res) {
         if (err) throw err;
         
         for (var i = 0; i < res.length; i++) {
-            console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].price);
-            saleList.push(`${res[i].item_id}`);
+            // console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].price);
+            saleList.push(`${res[i].item_id} ${res[i].product_name} : $ ${res[i].price}`);
         }
             console.log("-----------------------------------");
-            // console.log("this is sale list", saleList)
+            console.table(res);
+            console.log("-----------------------------------");
+            
             // console.log(res);
             inquireItem(); 
       })
@@ -85,12 +95,10 @@ function updateProduct() {
         function(err, res) {
             if (err) throw err;
                 console.log(res.affectedRows + " products updated!\n");
-
-      }
+        }
     );
-  
     // logs the actual query being run
-    console.log(query.sql);
+    // console.log(query.sql);
 }
 
 queryTable();
