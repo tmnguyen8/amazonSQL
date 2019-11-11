@@ -18,7 +18,8 @@ var keys = require ("./keys.js");
 var connection = mysql.createConnection(keys.databaseKeys);
 var superOptions = [
     'View Product Sales by Department',
-    'Create New Department'
+    'Create New Department',
+    'exit'
 ];
 
 function superInquire() {
@@ -40,12 +41,15 @@ function superInquire() {
             case ('Create New Department'):
                 console.log('I want to create new department');
                 break;
+            case "exit":
+                connection.end();
+                break;
         }
     });
 };
 
 function displayProductSale() {
-    
+
 }
 
 

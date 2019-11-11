@@ -7,7 +7,8 @@ var managerOptions = [
     'View Products for Sale',
     'View Low Inventory',
     'Add to Inventory',
-    'Add New Product'
+    'Add New Product',
+    'exit'
 ]
 var saleList = [];
 // main function of manager to pick the options to update products
@@ -36,6 +37,9 @@ function managerInquire() {
             case ('Add New Product'):
                 addNewProduct();
                 console.log("add new product");
+                break;
+            case "exit":
+                connection.end();
                 break;
         }
         

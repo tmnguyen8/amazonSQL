@@ -91,7 +91,7 @@ function updateProduct() {
     var query = connection.query(
     //   "UPDATE products SET ? WHERE ?;",
     //     [`stock_quantity=stock_quantity-${selectedQuantity}`,`item_id=${selectedItem}`],
-        `UPDATE products SET stock_quantity=stock_quantity-${selectedQuantity} WHERE item_id=${selectedItem};`,
+        `UPDATE products SET stock_quantity=stock_quantity-${selectedQuantity}, quantity_sold=quantity_sold+${selectedQuantity} WHERE item_id=${selectedItem};`,
         function(err, res) {
             if (err) throw err;
                 console.log(res.affectedRows + " products updated!\n");
