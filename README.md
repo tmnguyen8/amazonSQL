@@ -76,6 +76,7 @@ DB_DATABASE_NAME=bamazon
 
  ```node bamazonSupervisor.js```
   ![](./assets/gif/supervisor1.gif)
+  ![](./assets/gif/supervisor2.gif)
 
 
 ## Contact

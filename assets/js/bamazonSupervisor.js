@@ -47,6 +47,7 @@ function superInquire() {
                 break;
             case ('Create New Department'):
                 console.log('I want to create new department');
+                addNewDepartment();
                 break;
             case "exit":
                 connection.end();
@@ -55,6 +56,7 @@ function superInquire() {
     });
 };
 
+// view products
 function viewProducts() {
     var query = connection.query(`SELECT 
 	    department_id,
@@ -69,6 +71,40 @@ function viewProducts() {
             console.log("-----------------------------------");
       });
       connection.end();
+}
+
+// Add New Department
+function addNewDepartment() {
+    inquirer
+        .prompt([
+            {
+                name: "name",
+                type: "input",
+                message: "What is the department name?",
+            },
+            {
+                name: "over_head_costs",
+                type: "input",
+                message: "What is the over head cost?",
+                validate: function(value) {
+                    if (isNaN(value) === false) {
+                    return true;
+                    }
+                    return false;
+                }
+            },
+            
+        ]).then(function(ans) {
+            var query = connection.query(`
+            INSERT INTO departments (department_name, over_head_costs, product_sales)
+            VALUES  ('${ans.name}', ${ans.over_head_costs}, 0);`, function(err, res) {
+                if (err) throw err;
+                    console.log(`New department (${ans.name} added successfully`);
+
+            });
+            connection.end();
+        });
+
 }
 
 
