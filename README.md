@@ -58,13 +58,16 @@ DB_DATABASE_NAME=bamazon
  ```node bamazonManager.js```
 
     * View Products for Sale
-    ![](./assets/gif/manager1.gif)
+
     * View Low Inventory
-    ![](./assets/gif/manager2.gif)
+
     * Add to Inventory
-    ![](./assets/gif/manager3.gif)
+
     * Add New Product
-    ![](./assets/gif/manager4.gif)
+  ![](./assets/gif/manager1.gif)
+  ![](./assets/gif/manager2.gif)
+  ![](./assets/gif/manager3.gif)
+  ![](./assets/gif/manager4.gif)
 
 3. The Supervisot has the functionality to view the sale performance of all the departments. The list of menu options includes:
 
