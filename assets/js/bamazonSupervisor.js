@@ -56,12 +56,19 @@ function superInquire() {
 };
 
 function viewProducts() {
-    var query = connection.query("SELECT * FROM departments", function(err, res) {
+    var query = connection.query(`SELECT 
+	    department_id,
+        department_name,
+	    over_head_costs,
+	    product_sales,
+        (over_head_costs + product_sales) as 'Total'
+        FROM bamazon.departments;`, function(err, res) {
         if (err) throw err;
             console.log("-----------------------------------");
             console.table(res);
             console.log("-----------------------------------");
-      })
+      });
+      connection.end();
 }
 
 

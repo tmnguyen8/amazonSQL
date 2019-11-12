@@ -51,17 +51,20 @@ DB_DATABASE_NAME=bamazon
 
  ```node bamazonCustomer.js```
 
- ![](./Assets/gif/concert-this-ex.gif)
+ ![](./assets/gif/customer1.gif)
 
 2. The Manager has the functionality to do more with a list of menu options:
 
-    * View Products for Sale
-    * View Low Inventory
-    * Add to Inventory
-    * Add New Product
-
  ```node bamazonManager.js```
-  ![](./Assets/gif/spotify-this-ex.gif)
+
+    * View Products for Sale
+    ![](./assets/gif/manager1.gif)
+    * View Low Inventory
+    ![](./assets/gif/manager2.gif)
+    * Add to Inventory
+    ![](./assets/gif/manager3.gif)
+    * Add New Product
+    ![](./assets/gif/manager4.gif)
 
 3. The Supervisot has the functionality to view the sale performance of all the departments. The list of menu options includes:
 
@@ -69,7 +72,7 @@ DB_DATABASE_NAME=bamazon
    * Create New Department
 
  ```node bamazonSupervisor.js```
-  ![](./Assets/gif/movie-this-ex.gif)
+  ![](./assets/gif/supervisor1.gif)
 
 
 ## Contact
