@@ -42,7 +42,7 @@ function managerInquire() {
                 connection.end();
                 break;
         }
-        
+        connection.end();
     });
 };
 
@@ -52,7 +52,7 @@ function queryTable() {
         if (err) throw err;
         
         for (var i = 0; i < res.length; i++) {
-            console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].price);
+            // console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].price);
             saleList.push(`${res[i].item_id}`);
         }
             console.log("-----------------------------------");

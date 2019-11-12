@@ -43,6 +43,7 @@ function superInquire() {
         switch (answer.superItems) {
             case ('View Product Sales by Department'):
                 console.log('I want to view product sales');
+                viewProducts();
                 break;
             case ('Create New Department'):
                 console.log('I want to create new department');
@@ -54,8 +55,13 @@ function superInquire() {
     });
 };
 
-function displayProductSale() {
-
+function viewProducts() {
+    var query = connection.query("SELECT * FROM departments", function(err, res) {
+        if (err) throw err;
+            console.log("-----------------------------------");
+            console.table(res);
+            console.log("-----------------------------------");
+      })
 }
 
 
