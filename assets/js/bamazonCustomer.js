@@ -2,13 +2,15 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 var keys = require ("./keys.js");
 const cTable = require('console.table');
+var colors = require('colors');
 
 var saleList = [];
 var saleDepartment = [];
+var saleQuantity = []
 var selectedItem =0;
 var selectedItemPrice;
 var selectedQuantity =0;
-var selectedItemStockQuantity = 0;
+var selectedItemStockQuantity;
 
 var connection = mysql.createConnection(keys.databaseKeys);
   
@@ -50,17 +52,19 @@ function inquireItem() {
             selectedItem = parseInt(answerArr[0]);
             selectedItemPrice = parseInt(answerArr[answerArr.length-1]);
             selectedDepartment = findDepartment(selectedItem);
-            console.log(`THIS IS THE SELECTED DEPARTMENT = ${selectedDepartment}`)
+            // console.log(`THIS IS THE SELECTED DEPARTMENT = ${selectedDepartment}`.green)
 
-            console.log("Purchased Quantity: ", selectedQuantity);
-            
+            console.log(`Purchased Quantity: ${selectedQuantity}` .blue);
+            selectedItemStockQuantity = findQuantity(selectedItem);
+
             // Check if quantity is available to sell
-            if (selectedItemStockQuantity <= selectedQuantity) {
+            if (selectedItemStockQuantity >= selectedQuantity) {
                 // console.log("Sufficient quantity");
-                console.log(`Your total price is: ${selectedItemPrice*selectedQuantity}`)
+                console.log(`Your total price is: ${selectedItemPrice*selectedQuantity}` .blue)
                 updateProduct();
             } else {
-                console.log("Insufficient quantity!");
+                console.log("Insufficient quantity!" .red);
+                connection.end();
             };
     
         });
@@ -73,14 +77,27 @@ function findDepartment(id) {
         if (arr[0] == id) {
             var result = arr.slice(1, arr.lenth).join(" ");
             return result;
-        }
-    }
-}
+        };
+    };
+};
+
+// function to find the stock_quantity based on item_id
+function findQuantity(id) {
+    for (i of saleQuantity) {
+        var arr = i.split(" ");
+        if (arr[0] == id) {
+            var result = parseInt(arr[1]);
+            return result;
+        };
+    };
+    
+};
 
 
 // This function display the items available for purchase
 function queryTable() {
     saleList = [];
+    saleQuantity = [];
     var query = connection.query("SELECT item_id AS 'item_id', product_name AS 'product_name', price AS 'price', department_name AS 'department_name' FROM bamazon.products;", function(err, res) {
         if (err) throw err;
         
@@ -88,14 +105,29 @@ function queryTable() {
             // console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].price);
             saleList.push(`${res[i].item_id} ${res[i].product_name} : $ ${res[i].price}`);
             saleDepartment.push(`${res[i].item_id} ${res[i].department_name}`);
-        }
+        };
+        connection.query(
+            `SELECT item_id AS 'item_id', stock_quantity AS 'stock_quantity' FROM bamazon.products;`, function(err, res) {
+                if (err) throw err;
+                for (i of res) {
+                    saleQuantity.push(`${i.item_id} ${i.stock_quantity}`);
+                    
+                }   
+                // console.log(saleQuantity);
+            }
+        );
+            
             console.log("-----------------------------------");
             console.table(res);
             console.log("-----------------------------------");
             
             // console.log(res);
             inquireItem(); 
-      })
+      });
+    
+
+
+
       // logs the actual query being run
     //   console.log(query.sql);
 };

@@ -36,13 +36,11 @@ function managerInquire() {
                 break;
             case ('Add New Product'):
                 addNewProduct();
-                console.log("add new product");
                 break;
             case "exit":
                 connection.end();
                 break;
         }
-        connection.end();
     });
 };
 
@@ -61,6 +59,7 @@ function queryTable() {
       })
     // logs the actual query being run
     // console.log(query.sql);
+    connection.end();
 };
 
 // View Low Inventory
@@ -72,7 +71,8 @@ function queryLowInventory() {
             console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].price + " | " + res[i].stock_quantity);
         }
             console.log("-----------------------------------");
-      })
+    });
+    connection.end();
 };
 
 // Add to Inventory
@@ -109,7 +109,7 @@ function addInventory() {
             updateProduct(itemArr[0], answer.selectedQuantity)
 
         });
-    })
+    });
 };
 
 // Updated Quantity
@@ -164,6 +164,7 @@ function addNewProduct() {
         ]).then(function(ans) {
             addNewItem(ans.name, ans.department, ans.price, ans.quantity)
         });
+
 }
 
 // function to add new item to database table

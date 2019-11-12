@@ -1,5 +1,7 @@
 USE bamazon;
 
+DROP TABLE IF EXISTS bamazon.departments;
+
 CREATE TABLE departments (
     department_id INT NOT NULL AUTO_INCREMENT,
     department_name VARCHAR(30) NOT NULL, 
@@ -8,7 +10,7 @@ CREATE TABLE departments (
     PRIMARY KEY (department_id) 
 );
 
-INSERT INTO products (department_name, over_head_costs, product_sales)
-VALUES  ('Electronics', 50), 
-        ("Toys and Games", 40),
-        ("Grocery", 10);
+INSERT INTO departments (department_name, over_head_costs, product_sales)
+VALUES  ('Electronics', 50.00, 0), 
+        ("Toys and Games", 40.00, 0),
+        ("Grocery", 10.00, 0);
