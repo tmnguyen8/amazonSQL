@@ -63,7 +63,7 @@ function viewProducts() {
         department_name,
 	    over_head_costs,
 	    product_sales,
-        (over_head_costs + product_sales) as 'Total'
+        (product_sales - over_head_costs) as 'Total'
         FROM bamazon.departments;`, function(err, res) {
         if (err) throw err;
             console.log("-----------------------------------");
